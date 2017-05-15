@@ -1,0 +1,39 @@
+{
+  "name": "toa-cors",
+  "description": "CORS middleware for Toa.",
+  "authors": [
+    "Yan Qing <admin@zensh.com>"
+  ],
+  "version": "0.1.0",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:toajs/toa-cors.git"
+  },
+  "engines": {
+    "node": ">= 4.5.0"
+  },
+  "homepage": "https://github.com/toajs/toa-cors",
+  "keywords": [
+    "toa",
+    "toa-module",
+    "toa-middleware",
+    "cors"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "istanbul": "^0.4.5",
+    "standard": "^10.0.2",
+    "supertest": "^3.0.0",
+    "tman": "^1.6.7",
+    "toa": "^2.6.6"
+  },
+  "scripts": {
+    "test": "standard && tman",
+    "test-cov": "istanbul cover _tman"
+  },
+  "files": [
+    "index.js",
+    "README.md"
+  ]
+}
