@@ -1,29 +1,28 @@
 'use strict'
-// **Github:** https://github.com/toajs/toa-router
+// **Github:** https://github.com/toajs/toa-cors
 //
 // **License:** MIT
 
 const defaultOptions = {
   // allowOrigins defines the origins which will be allowed to access
-  // the resource. Default value is:.
+  // the resource. Default value is:
   allowOrigins: ['*'],
   // allowMethods defines the methods which will be allowed to access
   // the resource. It is used in handling the preflighted requests.
-  // Default value is:.
+  // Default value is:
   allowMethods: ['GET', 'HEAD', 'PUT', 'POST', 'DELETE', 'PATCH'],
   // allowHeaders defines the headers which will be allowed in the actual
-  // request, It is used in handling the preflighted requests.
+  // request. It is used in handling the preflighted requests.
   allowHeaders: [],
   // exposeHeaders defines the allowed headers that client could send when
   // accessing the resource.
   exposeHeaders: [],
   // maxAge defines the max age that the preflighted requests can be cached, seconds.
   maxAge: 0,
-  // credentials defines whether or not the response to the request
-  // can be exposed.
+  // credentials defines whether or not the response to the request can be exposed.
   credentials: false,
   // allowOriginsValidator validates the request Origin by validator
-  // function.The validator function accpects an `*gear.Context` and returns the
+  // function. The validator function accpects the origin and should returns the
   // Access-Control-Allow-Origin value. If the validator is set, then
   // allowMethods will be ignored.
   allowOriginsValidator: null
