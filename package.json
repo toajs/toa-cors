@@ -4,7 +4,7 @@
   "authors": [
     "Yan Qing <admin@zensh.com>"
   ],
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "index.js",
   "repository": {
     "type": "git",
@@ -25,8 +25,8 @@
     "istanbul": "^0.4.5",
     "standard": "^10.0.2",
     "supertest": "^3.0.0",
-    "tman": "^1.6.7",
-    "toa": "^2.6.6"
+    "tman": "^1.6.9",
+    "toa": "^2.6.8"
   },
   "scripts": {
     "test": "standard && tman",
