@@ -24,10 +24,11 @@ tman.suite('toa-cors', function () {
         .set('Origin', 'test.org')
         .set('Access-Control-Request-Method', 'PUT')
         .expect('Vary', 'Origin, Access-Control-Request-Method, Access-Control-Request-Headers')
+        .expect('Content-Length', '0')
         .expect('Access-Control-Allow-Origin', 'test.org')
         .expect('Access-Control-Allow-Methods', 'GET, HEAD, PUT, POST, DELETE, PATCH')
         .expect('Access-Control-Allow-Credentials', 'true')
-        .expect(204)
+        .expect(200)
     })
   })
 
@@ -57,7 +58,7 @@ tman.suite('toa-cors', function () {
         .expect(200)
     })
 
-    tman.it('Should returns 403 forbidden when request Origin header is invalid', function * () {
+    tman.it('Should success when request Origin header is invalid', function * () {
       yield request(srv)
         .get('/')
         .set('Origin', 'not-allowed.org')
@@ -65,7 +66,7 @@ tman.suite('toa-cors', function () {
         .expect((res) => {
           assert.strictEqual(res.headers['access-control-allow-origin'], undefined)
         })
-        .expect(403)
+        .expect(200)
     })
 
     tman.it('Should set Access-Control-Allow-Origin when request Origin header is qualified', function * () {
@@ -81,11 +82,12 @@ tman.suite('toa-cors', function () {
       yield request(srv)
         .options('/')
         .set('Origin', 'test.org')
+        .expect('Content-Length', '0')
         .expect('Vary', 'Origin, Access-Control-Request-Method, Access-Control-Request-Headers')
         .expect((res) => {
           assert.strictEqual(res.headers['access-control-allow-origin'], undefined)
         })
-        .expect(403)
+        .expect(200)
     })
 
     tman.it('Should set headers as specfied in options when prefilghted request is valid', function * () {
@@ -93,6 +95,7 @@ tman.suite('toa-cors', function () {
         .options('/')
         .set('Origin', 'test.org')
         .set('Access-Control-Request-Method', 'PUT')
+        .expect('Content-Length', '0')
         .expect('Vary', 'Origin, Access-Control-Request-Method, Access-Control-Request-Headers')
         .expect('Access-Control-Allow-Origin', 'test.org')
         .expect('Access-Control-Max-Age', '10')
@@ -102,7 +105,7 @@ tman.suite('toa-cors', function () {
         .expect((res) => {
           assert.strictEqual(res.headers['access-control-expose-origin'], undefined)
         })
-        .expect(204)
+        .expect(200)
     })
 
     tman.it('Should set headers as specfied in options when is simple request', function * () {
@@ -142,12 +145,15 @@ tman.suite('toa-cors', function () {
         .expect(200)
     })
 
-    tman.it('Should returns 403 forbidden when not pass the validator', function * () {
+    tman.it('Should returns 200 when not pass the validator', function * () {
       yield request(srv)
         .get('/')
         .set('Origin', 'not-allow-origin.com')
         .expect('Vary', 'Origin')
-        .expect(403)
+        .expect((res) => {
+          assert.strictEqual(res.headers['access-control-allow-origin'], undefined)
+        })
+        .expect(200)
     })
   })
 })

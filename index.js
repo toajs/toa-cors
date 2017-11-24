@@ -55,17 +55,24 @@ module.exports = function toaCORS (opts) {
     let allowOrigin = opts.allowOriginsValidator.call(this, origin)
     // If the request Origin header is not allowed. Just terminate the following steps.
     if (allowOrigin === '') {
-      this.throw(403, `Origin "${origin}" is not allowed`)
+      if (this.method !== 'OPTIONS') return
+      else {
+        this.status = 200
+        this.body = ''
+        return this.end()
+      }
     }
+
+    this.set('Access-Control-Allow-Origin', allowOrigin)
     if (opts.credentials) {
       // when responding to a credentialed request, server must specify a
       // domain, and cannot use wild carding.
       // See *important note* in https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS#Requests_with_credentials .
       this.set('Access-Control-Allow-Credentials', 'true')
     }
-    this.set('Access-Control-Allow-Origin', allowOrigin)
 
     // Handle preflighted requests (https://developer.mozilla.org/en-US/docs/Web/HTTP/Access_control_CORS#Preflighted_requests) .
+    // https://stackoverflow.com/questions/46026409/what-are-proper-status-codes-for-cors-preflight-requests
     if (this.method === 'OPTIONS') {
       this.vary('Access-Control-Request-Method')
       this.vary('Access-Control-Request-Headers')
@@ -77,7 +84,9 @@ module.exports = function toaCORS (opts) {
       if (requestMethod === '') {
         this.remove('Access-Control-Allow-Origin')
         this.remove('Access-Control-Allow-Credentials')
-        this.throw(403, 'invalid preflighted request, missing Access-Control-Request-Method header')
+        this.status = 200
+        this.body = ''
+        return this.end()
       }
 
       if (opts.allowMethods.length > 0) {
@@ -97,7 +106,8 @@ module.exports = function toaCORS (opts) {
       if (opts.maxAge > 0) {
         this.set('Access-Control-Max-Age', String(opts.maxAge))
       }
-      this.status = 204
+      this.status = 200
+      this.body = ''
       return this.end()
     }
 
